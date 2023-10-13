@@ -2,7 +2,6 @@ name: Test
 on:
   workflow_dispatch:
   pull_request:
-    types: [ready_for_review]
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
@@ -14,7 +13,9 @@ jobs:
         with:
           node-version: "20"
           cache: "yarn"
-      - uses: jwalton/gh-find-current-pr@v1
+
+      - name: Find pull request
+        uses: jwalton/gh-find-current-pr@v1
         id: findPr
         with:
           state: open
@@ -22,9 +23,19 @@ jobs:
       - run: echo "Your PR is ${PR}"
         if: success() && steps.findPr.outputs.number
 
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ steps.findPr.outputs.number }}
+          body-includes: Preview deployments will show up here if available.
+
+      - run: echo "Your comment ID is ${steps.fc.outputs.comment-id}"
+        if: success() && steps.findPr.outputs.number
+
       - name: Create comment with the vercel preview deployment2
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ steps.findPr.outputs.pr }}
-          body: Storybook preview deployment is available at test
-          reactions: rocket, eyes
+          edit-mode: append
+          body: Test
