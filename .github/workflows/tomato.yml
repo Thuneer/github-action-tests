@@ -27,12 +27,12 @@ jobs:
         id: fc
         with:
           issue-number: ${{ steps.findPr.outputs.number }}
-          body-includes: Preview deployments
+          body-includes: Preview deployments for this pull request
 
       - run: echo ${{ steps.fc.outputs.comment-id }}
         if: success() && steps.findPr.outputs.number
 
-      - name: Find Storefront if it is there2
+      - name: Find Storefront deployment if it is there
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-storefront
         with:
@@ -46,15 +46,17 @@ jobs:
           format: D. MMM YYYY - HH:mm
           utcOffset: "+02:00"
 
-      - name: Create comment with the vercel preview deployment
+      - name: Update comment with Storybook preview deployment
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ steps.findPr.outputs.pr }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
           edit-mode: replace
           body: |
-            **Preview deployments:**
+            **Preview deployments for this pull request:**
 
-            📖 [Storybook](https://db.no) `${{ steps.current-time.outputs.formattedTime }}`
+            📖 [Storybook](https://storybook-pr-${{ steps.findPr.outputs.number }}.dev.designsystemet.no) `${{ steps.current-time.outputs.formattedTime }}`
 
             ${{ steps.regex-storefront.outputs.match }}
+
+            See all deployments at [https://dev.designsystemet.no](https://dev.designsystemet.no)
