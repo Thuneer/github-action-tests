@@ -29,6 +29,6 @@ jobs:
       - name: Create comment with the vercel preview deployment2
         uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: ${{ steps.findPr.outputs.pr }}
+          comment-id: ${{ steps.fc.outputs.comment-id }}
           edit-mode: append
           body: Test
