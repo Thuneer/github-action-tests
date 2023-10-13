@@ -1,4 +1,4 @@
-name: Test
+name: Storybook Deploy
 on:
   pull_request:
 
@@ -27,10 +27,17 @@ jobs:
         id: fc
         with:
           issue-number: ${{ steps.findPr.outputs.number }}
-          body-includes: Preview deployments will show up here if available.
+          body-includes: Preview deployments
 
       - run: echo ${{ steps.fc.outputs.comment-id }}
         if: success() && steps.findPr.outputs.number
+
+      - name: Find Storefront if it is there
+        uses: actions-ecosystem/action-regex-match@v2
+        id: regex-storefront
+        with:
+          text: ${{ steps.fc.outputs.comment-body }}
+          regex: '🖥 \[Storefront\]\((https:\/\/[^)]+)\) `[^`]+`'
 
       - name: Create comment with the vercel preview deployment
         uses: peter-evans/create-or-update-comment@v3
@@ -38,4 +45,9 @@ jobs:
           issue-number: ${{ steps.findPr.outputs.pr }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
           edit-mode: append
-          body: Storefront preview deployment is available at fff
+          body: |
+            **Preview deployments:**
+
+            📖 [Storybook](https://db.no) `28. march 2023`
+
+            ${{ steps.regex-storefront.outputs.match }}
