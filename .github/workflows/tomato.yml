@@ -8,12 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Use node 20 and yarn cache
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-          cache: "yarn"
-
       - name: Find pull request
         uses: jwalton/gh-find-current-pr@v1
         id: findPr
