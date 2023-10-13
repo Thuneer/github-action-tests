@@ -34,7 +34,7 @@ jobs:
 
       - run: echo ${{ steps.fc.outputs.comment-body  }}
 
-      - name: Find Storefront if it is there
+      - name: Find Storefront if it is there2
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-storefront
         with:
