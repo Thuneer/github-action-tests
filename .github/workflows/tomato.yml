@@ -30,5 +30,6 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ steps.findPr.outputs.number }}
           edit-mode: append
           body: Test
