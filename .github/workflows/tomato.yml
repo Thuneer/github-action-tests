@@ -1,6 +1,12 @@
 name: Test
 on:
   pull_request:
+
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
+
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
