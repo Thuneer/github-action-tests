@@ -23,7 +23,7 @@ jobs:
           issue-number: ${{ steps.findPr.outputs.number }}
           body-includes: Preview deployments will show up here if available.
 
-      - run: echo "Your comment ID is ${steps.fc.outputs.comment-id}"
+      - run: echo ${{ steps.fc.outputs.comment-id }}
         if: success() && steps.findPr.outputs.number
 
       - name: Create comment with the vercel preview deployment2
