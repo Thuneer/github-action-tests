@@ -36,4 +36,6 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ steps.findPr.outputs.pr }}
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          edit-mode: append
           body: Storefront preview deployment is available at fff
