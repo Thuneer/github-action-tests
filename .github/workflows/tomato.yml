@@ -52,6 +52,7 @@ jobs:
           issue-number: ${{ steps.findPr.outputs.pr }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
           edit-mode: replace
+          reactions: rocket, eyes
           body: |
             **Preview deployments for this pull request:**
 
