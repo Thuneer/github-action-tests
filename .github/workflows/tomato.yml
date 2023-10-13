@@ -32,14 +32,15 @@ jobs:
       - run: echo ${{ steps.fc.outputs.comment-id }}
         if: success() && steps.findPr.outputs.number
 
-      - run: echo ${{ steps.fc.outputs.comment-body  }}
-
       - name: Find Storefront if it is there2
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-storefront
         with:
           text: ${{ steps.fc.outputs.comment-body }}
           regex: '🖥 \[Storefront\]\((https:\/\/[^)]+)\) `[^`]+`'
+
+      - run: echo ${{ steps.regex-storefront.outputs.match  }}
+      - run: echo ${{ steps.regex-storefront.outputs.group1  }}
 
       - name: Create comment with the vercel preview deployment
         uses: peter-evans/create-or-update-comment@v3
