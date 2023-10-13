@@ -39,6 +39,13 @@ jobs:
           text: ${{ steps.fc.outputs.comment-body }}
           regex: '🖥 \[Storefront\]\((https:\/\/[^)]+)\) `[^`]+`'
 
+      - name: Get current time
+        uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYYMMDD-HH
+          utcOffset: "+02:00"
+
       - name: Create comment with the vercel preview deployment
         uses: peter-evans/create-or-update-comment@v3
         with:
@@ -48,6 +55,6 @@ jobs:
           body: |
             **Preview deployments:**
 
-            📖 [Storybook](https://db.no) `28. march 2023`
+            📖 [Storybook](https://db.no) `${{ steps.current-time.outputs.formattedTime }}`
 
             ${{ steps.regex-storefront.outputs.match }}
