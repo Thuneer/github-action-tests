@@ -22,7 +22,7 @@ jobs:
       - run: echo "Your PR is ${PR}"
         if: success() && steps.findPr.outputs.number
 
-      - name: Create comment with the vercel preview deployment
+      - name: Create comment with the vercel preview deployment2
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ steps.findPr.outputs.pr }}
