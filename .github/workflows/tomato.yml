@@ -1,7 +1,7 @@
 name: Storybook Deploy
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, synchronize]
     paths:
       - "packages/**"
       - ".storybook/**"
