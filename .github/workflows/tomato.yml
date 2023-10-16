@@ -25,7 +25,7 @@ jobs:
         id: fc
         with:
           issue-number: ${{ env.PR_NUMBER }}
-          comment-author: github-actions
+          body-includes: Preview deployments for this pull request
 
       - run: echo ${{ steps.fc.outputs.comment-id }}
         if: success() && env.PR_NUMBER
