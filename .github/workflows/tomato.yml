@@ -32,14 +32,14 @@ jobs:
       - run: echo ${{ steps.fc.outputs.comment-id }}
         if: success() && steps.findPr.outputs.number
 
-      - name: Find Storefront deployment if it is there
+      - name: Find Storefront deployment
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-storefront
         with:
           text: ${{ steps.fc.outputs.comment-body }}
           regex: '🖥 \[Storefront\]\((https:\/\/[^)]+)\) `[^`]+`'
 
-      - name: Get current time
+      - name: Get current time in CEST
         uses: josStorer/get-current-time@v2
         id: current-time
         with:
