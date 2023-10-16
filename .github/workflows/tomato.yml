@@ -1,6 +1,13 @@
 name: Storybook Deploy
 on:
   pull_request:
+    types: [opened, edited]
+    paths:
+      - "packages/**"
+      - ".storybook/**"
+
+env:
+  PR_NUMBER: ${{ github.event.number }}
 
 permissions:
   pull-requests: write
@@ -13,24 +20,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Find pull request2
-        uses: jwalton/gh-find-current-pr@v1
-        id: findPr
-        with:
-          state: open
-
-      - run: echo "Your PR is ${PR}"
-        if: success() && steps.findPr.outputs.number
-
       - name: Find Comment
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: ${{ steps.findPr.outputs.number }}
-          body-includes: Preview deployments for this pull request
+          issue-number: ${{ env.PR_NUMBER }}
+          comment-author: github-actions
 
       - run: echo ${{ steps.fc.outputs.comment-id }}
-        if: success() && steps.findPr.outputs.number
+        if: success() && env.PR_NUMBER
 
       - name: Find Storefront deployment
         uses: actions-ecosystem/action-regex-match@v2
@@ -49,14 +47,14 @@ jobs:
       - name: Update comment with Storybook preview deployment
         uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: ${{ steps.findPr.outputs.pr }}
+          issue-number: ${{ env.PR_NUMBER }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
           edit-mode: replace
           reactions: rocket, eyes
           body: |
             **Preview deployments for this pull request:**
 
-            📖 [Storybook](https://storybook-pr-${{ steps.findPr.outputs.number }}.dev.designsystemet.no) `${{ steps.current-time.outputs.formattedTime }}`
+            📖 [Storybook](https://storybook-pr-${{ env.PR_NUMBER }}.dev.designsystemet.no) `${{ steps.current-time.outputs.formattedTime }}`
 
             ${{ steps.regex-storefront.outputs.match }}
 
