@@ -8,6 +8,11 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   PR_NUMBER: ${{ github.event.number }}
 
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
+
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
